@@ -1,11 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
   const [input, setInput] = useState('');
   const [conversation, setConversation] = useState<{ sender: 'user' | 'ai', message: string }[]>([]);
+  const [isListening, setIsListening] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
 
-  
+  let recognition: SpeechRecognition | null = null;
+
+  const recognitionRef = useRef(null);
+
+
+  useEffect(() => {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      setSpeechSupported(true);
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInput((currentInput) => currentInput + " " + transcript); // Appends the new transcript
+        setIsListening(false);
+      };
+      
+
+      recognition.onerror = (event) => {
+        console.error('Speech Recognition Error:', event.error);
+        setIsListening(false);
+      };
+    } else {
+      console.warn('Speech recognition not supported in this browser.');
+      setSpeechSupported(false);
+    }
+  }, []);
+
+  const startListening = () => {
+    console.log("Currently listening...");
+    if (recognition) {
+      console.log(recognition);
+      recognition.start();
+      setIsListening(true);
+    }
+  };
+
+  const stopListening = () => {
+    if (recognition) {
+      recognition.stop();
+      setIsListening(false);
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
@@ -49,6 +98,16 @@ const HomePage: React.FC = () => {
       <form onSubmit={handleSubmit} className="message-form">
         <input type="text" value={input} onChange={handleInputChange} placeholder="Type your message..." />
         <button type="submit">Send</button>
+        {speechSupported && (
+        <>
+          <button type="button" onClick={startListening} disabled={isListening}>
+            Start Talking
+          </button>
+          <button type="button" onClick={stopListening} disabled={!isListening}>
+            Stop Talking
+          </button>
+        </>
+      )}
       </form>
       <div className="conversation">
         {conversation.map((entry, index) => (
