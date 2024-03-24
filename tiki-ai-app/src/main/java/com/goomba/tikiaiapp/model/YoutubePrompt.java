@@ -8,5 +8,5 @@ import lombok.Setter;
 public class YoutubePrompt {
     private String subject;
     private int age;
-    private int gradeLevel;
+    private String gradeLevel;
 }

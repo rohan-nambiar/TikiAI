@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LearningPage.css'; // Make sure the path matches where your CSS file is located
 import { Link } from 'react-router-dom';
 
 
 
 const LearningPage: React.FC = () => {
+  // State initialization
   const [subject, setSubject] = useState('');
   const [age, setAge] = useState('');
   const [gradeLevel, setGradeLevel] = useState('');
   const [youtubeLink, setYoutubeLink] = useState('');
+
+  // Prefill the form if user data exists in local storage
+  useEffect(() => {
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      const parsedUserData = JSON.parse(userData);
+      if (parsedUserData.age) setAge(parsedUserData.age.toString());
+      if (parsedUserData.gradeLevel) setGradeLevel(parsedUserData.gradeLevel.toString());
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent default form submission behavior

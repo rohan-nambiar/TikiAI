@@ -5,6 +5,7 @@ const HomePage: React.FC = () => {
   const [input, setInput] = useState('');
   const [conversation, setConversation] = useState<{ sender: 'user' | 'ai', message: string }[]>([]);
 
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };

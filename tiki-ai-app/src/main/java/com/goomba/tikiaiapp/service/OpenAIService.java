@@ -43,6 +43,22 @@ public class OpenAIService {
         return response.getBody();
     }
 
+    public String createPracticeTest(String apiPrompt) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(apiKey);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        apiPrompt = "Answer this as if you were a tiki head: " + apiPrompt;
+        String requestBody = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"user\", \"content\": \"" + apiPrompt + "\"}]}";
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+    
+        ResponseEntity<String> response = restTemplate.exchange(openAIUrl, HttpMethod.POST, entity, String.class);
+    
+        // Here you might parse and format the response as needed
+        return response.getBody();
+    }
+
     public String getYoutubeSearch(YoutubePrompt youtubePrompt) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();

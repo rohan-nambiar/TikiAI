@@ -11,38 +11,68 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import TasksPage from './pages/TasksPage';
-import AdvicePage from './pages/PracticePage';
 import RegistrationPage from './pages/RegistrationPage';
 import LearningPage from './pages/LearningPage';
 import PracticePage from './pages/PracticePage';
+import ProfilePage from './pages/ProfilePage';
+import { AuthProvider, useAuth } from './AuthContext'; // Update the import path as necessary
+
 
 function App() {
+  const auth = useAuth();
+
   return (
     <Router>
-      <div className="App">
-        <header className="App-header">
-          <nav>
-            <Link to="/">Home</Link> | 
-            <Link to="/login">Login</Link> | 
-            <Link to="/tasks">Tasks</Link> | 
-            <Link to="/practice">Practice</Link>
-            <Link to="/learning">Learning</Link>
-          </nav>
-        </header>
-        <main>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegistrationPage />} />
-            <Route path="/tasks" element={<TasksPage />} />
-            <Route path="/practice" element={<PracticePage />} />
-            <Route path="/learning" element={<LearningPage />} />
-            <Route path="*" element={<div>Page not found</div>} />
-          </Routes>
-        </main>
-      </div>
+      <AuthProvider>
+        <div className="App">
+          <header className="App-header">
+          <NavBar /> {/* NavBar is a separate component now */}
+
+          </header>
+          <main>
+            <Routes>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/login" element={
+                // Use the useAuth hook within a component or custom hook
+                <AuthConsumer />
+              } />              
+              <Route path="/register" element={<RegistrationPage />} />
+              <Route path="/tasks" element={<TasksPage />} />
+              <Route path="/practice" element={<PracticePage />} />
+              <Route path="/learning" element={<LearningPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="*" element={<HomePage />} />
+            </Routes>
+          </main>
+        </div>
+      </AuthProvider>
     </Router>
   );
 }
+
+const NavBar: React.FC = () => {
+  const auth = useAuth();
+
+  return (
+    <nav>
+      <Link to="/home">Home</Link>  
+      {auth?.isLoggedIn ? (
+        <Link to="/profile">Profile</Link>
+      ) : (
+        <>
+          <Link to="/login">Login</Link>  
+        </>
+      )} 
+      <Link to="/tasks">Tasks</Link>  
+      <Link to="/practice">Practice</Link>
+      <Link to="/learning">Learning</Link>
+    </nav>
+  );
+};
+
+const AuthConsumer: React.FC = () => {
+  const { isLoggedIn } = useAuth() ?? { isLoggedIn: false };
+  return isLoggedIn ? <ProfilePage /> : <LoginPage />;
+};
 
 export default App;
