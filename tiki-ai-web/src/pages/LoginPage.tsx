@@ -44,7 +44,6 @@ const LoginPage: React.FC = () => {
         gradeLevel: data.gradeLevel,
         age: data.age,
       };
-      console.log(userData);
       localStorage.setItem('userData', JSON.stringify(data)); // Save user data
     // Assuming login successful if we get here
       if (login) {

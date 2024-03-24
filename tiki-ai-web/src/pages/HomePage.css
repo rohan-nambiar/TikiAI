@@ -1,52 +1,70 @@
 .home-page {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-  }
-  
-  .message-form input {
-    width: calc(100% - 110px);
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .message-form button {
-    padding: 10px 15px;
-    background-color: #005a87;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .message-form button:hover {
-    background-color: #00415a;
-  }
-  
-  .conversation {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    height: 300px;
-    overflow-y: auto;
-  }
-  
-  .message {
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 4px;
-    color: white;
-  }
-  
-  .message.user {
-    background-color: #005a87;
-    text-align: right;
-  }
-  
-  .message.ai {
-    background-color: #4CAF50;
-    text-align: left;
-  }
-  
+  max-width: 800px; /* Increased width for a roomier layout */
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f0f4f8; /* Softer background color */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Add some shadow for depth */
+  border-radius: 8px; /* Rounded corners for modern look */
+  font-family: 'Arial', sans-serif; /* Updated font for better readability */
+}
+
+.message-form input, .message-form button {
+  height: 40px; /* Uniform height for input and buttons */
+  vertical-align: middle; /* Align input and buttons nicely */
+}
+
+.message-form input {
+  width: calc(100% - 120px); /* Adjusted width */
+  padding: 0 10px; /* Padding for text inside input */
+  margin-right: 10px;
+  border: 2px solid #007bff; /* Brighter border color */
+  border-radius: 20px; /* Rounded borders for input */
+  font-size: 16px; /* Larger font size */
+}
+
+.message-form button {
+  padding: 0 15px;
+  background-color: #007bff; /* Brighter button color */
+  color: white;
+  border: none;
+  border-radius: 20px; /* Rounded borders for buttons */
+  font-weight: bold; /* Bold font for button text */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.message-form button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.conversation {
+  margin-top: 20px;
+  border: 2px solid #007bff; /* Brighter border color */
+  padding: 15px; /* More padding for breathing room */
+  height: 400px; /* Increased height for larger conversation area */
+  overflow-y: auto;
+  background-color: #ffffff; /* Light background for conversation area */
+  border-radius: 8px; /* Rounded corners for conversation box */
+}
+
+.message {
+  margin: 10px 0; /* Increased margin for spacing */
+  padding: 10px 15px; /* Adjust padding */
+  border-radius: 20px; /* More pronounced rounded corners */
+  font-size: 16px; /* Increased font size for readability */
+  line-height: 1.5; /* Improved line spacing */
+  max-width: 75%; /* Max width for message bubbles */
+}
+
+.message.user {
+  background-color: #007bff; /* Brighter background color */
+  text-align: right;
+  color: #ffffff; /* Ensure text color is white for readability */
+  margin-left: auto; /* Align user messages to right */
+}
+
+.message.ai {
+  background-color: #28a745; /* Softer green color */
+  text-align: left;
+  color: #ffffff; /* Ensure text color is white for readability */
+  margin-right: auto; /* Align AI messages to left */
+}

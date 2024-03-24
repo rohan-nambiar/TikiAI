@@ -15,6 +15,7 @@ import RegistrationPage from './pages/RegistrationPage';
 import LearningPage from './pages/LearningPage';
 import PracticePage from './pages/PracticePage';
 import ProfilePage from './pages/ProfilePage';
+import QuestionsPage from './pages/QuestionPage'; // Import the QuestionsPage
 import { AuthProvider, useAuth } from './AuthContext'; // Update the import path as necessary
 
 
@@ -41,6 +42,7 @@ function App() {
               <Route path="/practice" element={<PracticePage />} />
               <Route path="/learning" element={<LearningPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/questions" element={<QuestionsPage />} />
               <Route path="*" element={<HomePage />} />
             </Routes>
           </main>

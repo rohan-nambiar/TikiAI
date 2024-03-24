@@ -1,38 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './HomePage.css';
 
+declare global {
+  interface Window {
+    SpeechRecognition: typeof SpeechRecognition;
+    webkitSpeechRecognition: typeof SpeechRecognition;
+  }
+}
+
 const HomePage: React.FC = () => {
   const [input, setInput] = useState('');
   const [conversation, setConversation] = useState<{ sender: 'user' | 'ai', message: string }[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
-
-  let recognition: SpeechRecognition | null = null;
-
-  const recognitionRef = useRef(null);
-
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
 
   useEffect(() => {
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.lang = 'en-US';
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-      setSpeechSupported(true);
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognitionInstance = new SpeechRecognition();
+      recognitionInstance.continuous = false;
+      recognitionInstance.lang = 'en-US';
+      recognitionInstance.interimResults = false;
+      recognitionInstance.maxAlternatives = 1;
 
-      recognition.onresult = (event) => {
+      recognitionInstance.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        setInput((currentInput) => currentInput + " " + transcript); // Appends the new transcript
+        setInput((prevInput) => `${prevInput} ${transcript}`);
         setIsListening(false);
       };
       
-
-      recognition.onerror = (event) => {
+      recognitionInstance.onerror = (event) => {
         console.error('Speech Recognition Error:', event.error);
         setIsListening(false);
       };
+
+      recognitionRef.current = recognitionInstance;
+      setSpeechSupported(true);
     } else {
       console.warn('Speech recognition not supported in this browser.');
       setSpeechSupported(false);
@@ -40,17 +44,15 @@ const HomePage: React.FC = () => {
   }, []);
 
   const startListening = () => {
-    console.log("Currently listening...");
-    if (recognition) {
-      console.log(recognition);
-      recognition.start();
+    if (recognitionRef.current) {
+      recognitionRef.current.start();
       setIsListening(true);
     }
   };
 
   const stopListening = () => {
-    if (recognition) {
-      recognition.stop();
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
       setIsListening(false);
     }
   };
@@ -77,14 +79,16 @@ const HomePage: React.FC = () => {
         }
         // Assuming the response is JSON. Use response.json() to parse it.
         const data = await response.json(); // Parse the JSON response
-        console.log('AI response:', data);
-
         // Extract the content from the response
         const aiContent = data.choices[0].message.content;
 
         // Update conversation history with the extracted content
-        setConversation([...conversation, { sender: 'user', message: userMessage }, { sender: 'ai', message: aiContent }]);
-    } catch (error) {
+        setConversation((prevConvo) => [
+          ...prevConvo,
+          { sender: 'user', message: userMessage },
+          { sender: 'ai', message: aiContent }
+        ]);
+        } catch (error) {
         console.error('There was an error!', error);
     }
 

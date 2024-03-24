@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './TaskPage.css'; // Ensure this path is correct
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -12,6 +12,43 @@ type CalendarEvent = {
 const TasksPage: React.FC = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [taskInput, setTaskInput] = useState<string>('');
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+
+  useEffect(() => {
+    // Check for browser support of SpeechRecognition API
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false; // Adjust as needed
+      recognition.lang = 'en-US'; // Adjust language as needed
+      recognition.interimResults = false; // Adjust as needed
+      recognition.maxAlternatives = 1; // Adjust as needed
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setTaskInput(transcript);
+        setIsListening(false);
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+    } else {
+      console.warn('Speech recognition not supported by this browser.');
+    }
+  }, []);
+
+  const startListening = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.start();
+      setIsListening(true);
+    }
+  };
+
 
   // Function to handle the submission of a new task
   const handleAddTask = async () => {
@@ -59,6 +96,9 @@ const TasksPage: React.FC = () => {
           className="task-input"
         />
         <button onClick={handleAddTask} className="task-button">Add Task</button>
+        <button onClick={startListening} className="task-button" disabled={isListening}>
+          {isListening ? 'Listening...' : 'Start Speaking'}
+        </button>
       </div>
       <FullCalendar
         plugins={[dayGridPlugin]}

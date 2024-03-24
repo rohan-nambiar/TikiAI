@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.goomba.tikiaiapp.model.TestPrompt;
 import com.goomba.tikiaiapp.model.YoutubePrompt;
 
 import org.json.JSONObject; 
@@ -43,13 +44,13 @@ public class OpenAIService {
         return response.getBody();
     }
 
-    public String createPracticeTest(String apiPrompt) {
+    public String createPracticeTest(TestPrompt testPrompt) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(apiKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        apiPrompt = "Answer this as if you were a tiki head: " + apiPrompt;
+        String apiPrompt = "Based on this subject: " + testPrompt.getSubject() + ", for a " + testPrompt.getAge() + "-year-old student in grade level " + testPrompt.getGradeLevel() + ", create 5 subtopics suitable for their educational needs and level.";
         String requestBody = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"user\", \"content\": \"" + apiPrompt + "\"}]}";
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
     
