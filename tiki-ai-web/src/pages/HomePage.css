@@ -1,0 +1,52 @@
+.home-page {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .message-form input {
+    width: calc(100% - 110px);
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .message-form button {
+    padding: 10px 15px;
+    background-color: #005a87;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .message-form button:hover {
+    background-color: #00415a;
+  }
+  
+  .conversation {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 300px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+  }
+  
+  .message.user {
+    background-color: #005a87;
+    text-align: right;
+  }
+  
+  .message.ai {
+    background-color: #4CAF50;
+    text-align: left;
+  }
+  

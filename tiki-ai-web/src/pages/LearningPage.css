@@ -1,0 +1,112 @@
+/* Container styling */
+.LearningPage-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .LearningPage-container h2 {
+    color: #333;
+  }
+  
+  /* Form styling */
+  .LearningPage-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .LearningPage-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .LearningPage-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .LearningPage-form button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .LearningPage-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* YouTube link section styling */
+  .LearningPage-link {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #e3f2fd;
+    border-left: 5px solid #2196f3;
+    border-radius: 4px;
+  }
+  
+  .LearningPage-link a {
+    color: #2196f3;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .LearningPage-link a:hover {
+    text-decoration: underline;
+  }
+
+  /* Add this to your existing CSS */
+
+/* Spacing for each form field container */
+.LearningPage-form > div {
+    margin-bottom: 15px; /* Add some space below each form field */
+  }
+  
+  /* Alternatively, if you prefer to add space specifically between labels and inputs: */
+  .LearningPage-form label {
+    display: block; /* Make label block to ensure it takes its own line */
+    margin-bottom: 5px; /* Add some space below the label */
+  }
+  
+  .LearningPage-form input,
+  .LearningPage-form button {
+    width: 100%; /* Make inputs and button take the full width of their container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+  
+  /* Additional styles for inputs to improve appearance */
+  .LearningPage-input {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Improve the appearance of the button */
+  .LearningPage-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px; /* Add some space above the button */
+  }
+  
+  .LearningPage-button:hover {
+    background-color: #0056b3;
+  }
+  
+  
