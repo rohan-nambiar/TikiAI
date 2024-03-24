@@ -37,7 +37,7 @@ const RegistrationPage: React.FC = () => {
       name: formData.name,
       username: formData.username,
       password: formData.password,
-      gradeLevel: parseInt(formData.gradeLevel, 10), // Parsing to integer
+      gradeLevel: formData.gradeLevel, // Parsing to integer
       age: parseInt(formData.age, 10), // Parsing to integer
     };
 

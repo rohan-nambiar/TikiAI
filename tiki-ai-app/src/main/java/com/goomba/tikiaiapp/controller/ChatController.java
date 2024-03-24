@@ -48,4 +48,13 @@ public class ChatController {
 
         return new ResponseEntity<>(openAIResponse, headers, HttpStatus.OK);
     }
+
+    @PostMapping("/getQuestions")
+    public ResponseEntity<String> createQuestions(@RequestBody TestPrompt testPrompt) {
+        String openAIResponse = openAIService.createQuestions(testPrompt);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        return new ResponseEntity<>(openAIResponse, headers, HttpStatus.OK);
+    }
 }

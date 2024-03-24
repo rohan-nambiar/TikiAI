@@ -58,6 +58,9 @@ const NavBar: React.FC = () => {
   return (
     <nav>
       <Link to="/home">Home</Link>  
+      <Link to="/tasks">Tasks</Link>  
+      <Link to="/practice">Practice</Link>
+      <Link to="/learning">Learning</Link>
       {auth?.isLoggedIn ? (
         <Link to="/profile">Profile</Link>
       ) : (
@@ -65,9 +68,6 @@ const NavBar: React.FC = () => {
           <Link to="/login">Login</Link>  
         </>
       )} 
-      <Link to="/tasks">Tasks</Link>  
-      <Link to="/practice">Practice</Link>
-      <Link to="/learning">Learning</Link>
     </nav>
   );
 };

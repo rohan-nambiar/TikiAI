@@ -60,6 +60,22 @@ public class OpenAIService {
         return response.getBody();
     }
 
+    public String createQuestions(TestPrompt testPrompt) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(apiKey);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        String apiPrompt = "Generate 5 multiple choice questions with answers on the subject of '" + testPrompt.getSubject() + "'. These questions should be suitable for a student who is " + testPrompt.getAge() + " years old and in grade " + testPrompt.getGradeLevel() + ". Each question should include four answer choices labeled A, B, C, and D. Clearly indicate the correct answer for each question. Tailor the difficulty and content of the questions to match the educational needs and comprehension level expected of a student at this age and grade level.";
+        String requestBody = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"user\", \"content\": \"" + apiPrompt + "\"}]}";
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+    
+        ResponseEntity<String> response = restTemplate.exchange(openAIUrl, HttpMethod.POST, entity, String.class);
+    
+        // Here you might parse and format the response as needed
+        return response.getBody();
+    }
+
     public String getYoutubeSearch(YoutubePrompt youtubePrompt) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
